@@ -10,7 +10,17 @@ export class RecipeService {
 
   recipesChanged = new Subject<Recipe[]>();
 
-  private recipes: Recipe[] = [
+  private recipes: Recipe[] = [];
+
+  getRecipes() {
+    return this.recipes.slice();
+  }
+
+  getRecipe(id: number) {
+    return this.recipes[id];
+  }
+
+  /*private recipes: Recipe[] = [
     new Recipe('Veggies with soggy towel',
       'You have to try this delicious recipe with fresh veggies and a soggy towel!',
       'https://image.shutterstock.com/image-photo/food-photography-260nw-578546905.jpg',
@@ -33,19 +43,15 @@ export class RecipeService {
         new Ingredient('Potat', 4),
 
       ])
-  ];
+  ];*/
+
+  setRecipes(recipes: Recipe[]) {
+    this.recipes = recipes;
+    this.recipesChanged.next(this.recipes.slice());
+  }
 
   constructor(private slService: ShoppingListService) {
   }
-
-  getRecipes() {
-    return this.recipes.slice();
-  }
-
-  getRecipe(id: number) {
-    return this.recipes[id];
-  }
-
 
   addIngredientsToShoppingList(ingredients: Ingredient[]) {
     this.slService.addIngredients(ingredients);
